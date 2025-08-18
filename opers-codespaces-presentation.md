@@ -5,30 +5,45 @@
 
 ## Agenda
 
-1. Current Challenges
-2. GitHub Codespaces Overview
-3. Governance & Security Features
-4. Shadow IT Mitigation
-5. Developer Experience
-6. Implementation Strategy
-7. Alternative: Coder (Brief Overview)
-8. Demo & Next Steps
+1. Citizen Developer Program Overview
+2. Current Challenges & Shadow IT
+3. GitHub Codespaces Solution
+4. Governance Framework & RACI
+5. AI Usage Guidelines & Copilot
+6. Platform Comparison (Codespaces vs Alternatives)
+7. Deployment Options (Cloud vs On-Premises)
+8. Demo & Implementation Roadmap
+
+---
+
+## Citizen Developer Program Structure
+
+### Four Levels of Development
+
+| Level | Typical Use Cases | Gating Mechanism | Oversight |
+|-------|------------------|------------------|-----------|
+| **Individual** | Macros, Excel/Power BI scripts, basic automations | Training & certification + manager sign-off | Local IT rep / Department IT liaison |
+| **Department** | Simple web apps, dashboards, Power Automate flows | Risk & data review + templated patterns | Department IT liaison + Security sign-off |
+| **Division** | Python/R scripts, RPA, scheduled ETL jobs | IT Security & Architecture review, threat model | Divisional Review Board |
+| **Enterprise** | Full-stack apps, AI/ML, production data integrations | Full SDLC, formal architecture review, executive sponsor | IT PMO & Architecture Council |
 
 ---
 
 ## Current Challenges at OPERS
 
-### Non-Citizen Developer Requirements
-- **Remote development access needed**
-- **Python-focused development teams**
-- **VSCode as primary IDE**
-- **Security and compliance concerns**
+### Shadow IT Risks
+- **Data Leakage / PII exposure**
+- **Shadow IT proliferation**
+- **Security vulnerabilities**
+- **Tool sprawl**
+- **Low adoption / resistance**
 
-### IT Governance Challenges
-- Shadow IT proliferation
-- Inconsistent development environments
-- Security policy enforcement
-- Audit and compliance tracking
+### Mitigation Strategy
+- DLP tooling, secure sandboxes, strict RBAC
+- Clear gated pathways, inventory, mandatory intake
+- CI/CD with SAST/DAST, secure coding training
+- Approved tool catalog, centralized provisioning
+- Executive sponsorship, clear benefits to developers
 
 ---
 
@@ -48,36 +63,43 @@
 
 ---
 
-## Governance Through .devcontainer
+## Governance & Control
 
-### Standardization at Scale
-```json
-{
-  "name": "OPERS Python Development",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
-  "features": {
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11"
-    }
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.black-formatter"
-      ]
-    }
-  },
-  "postCreateCommand": "pip install -r requirements.txt"
-}
-```
+### What IT Controls
+- **Approved tools and languages**
+- **Security policies and scanning**
+- **Cost limits per user/team**
+- **Data access permissions**
+- **Audit trails and compliance**
 
-### Benefits
-- **Enforced environment standards**
-- **Pre-approved tools and extensions**
-- **Consistent Python versions and dependencies**
-- **Security scanning built-in**
+### What Developers Get
+- **Instant, standardized environments**
+- **Pre-configured with all tools**
+- **No "works on my machine" issues**
+- **Focus on coding, not setup**
+
+---
+
+## Governance RACI Chart
+
+| Activity | R (Responsible) | A (Accountable) | C (Consulted) | I (Informed) |
+|----------|----------------|-----------------|---------------|--------------|
+| **Executive Announcement** | Comms Lead | CIO | Security, Architecture | All Staff |
+| **Managers-Only Meetings** | Comms Lead / Program Manager | Program Sponsor | Security, Architecture, Platform | PMO |
+| **Inventory Collection & Validation** | Managers / Dept IT Liaisons | Program Manager | Security, Data Governance | Steering Committee |
+| **Policy & Playbook Publication** | Security Lead / Architecture Lead | CISO / Chief Architect | Platform, PMO | All Staff |
+| **KPI Dashboard Publishing** | Reporting Lead | Program Manager | Security, Architecture | Executives, Managers |
+
+---
+
+## Key Messages By Audience
+
+| Audience | Message | Action |
+|----------|---------|--------|
+| **Executive** | We are enabling faster innovation with enterprise-grade safety | Mandate participation, sponsor enterprise-level projects |
+| **Manager** | Your teams can build—but securely, visibly, and with support | Attend discovery meeting, submit inventory, nominate candidates |
+| **Citizen Developers** | You'll get tools, training, and clear rules to build faster | Get certified, use approved platforms/templates |
+| **IT & Risk** | We're reducing shadow IT and improving observability | Implement controls, review escalations, monitor KPIs |
 
 ---
 
@@ -110,6 +132,31 @@
 - **Encrypted at rest and in transit**
 - **Network restrictions** - IP allowlisting
 - **Secrets management** - Centralized, encrypted secrets
+
+---
+
+## AI Usage Guidelines & GitHub Copilot
+
+### AI for Citizen Developers
+- **GitHub Copilot Integration** - Built into Codespaces
+- **Guardrails for Non-IT Professionals**
+  - Pre-approved AI coding patterns
+  - Security scanning of AI-generated code
+  - License compliance checks
+  - PII/sensitive data detection
+
+### Copilot Benefits
+- **Code Suggestions** - Real-time assistance
+- **Documentation** - Auto-generated comments
+- **Testing** - Unit test generation
+- **Security** - Vulnerability detection
+- **Learning** - Best practices guidance
+
+### Governance Controls
+- Organization-level Copilot policies
+- Usage monitoring and analytics
+- Content filtering for sensitive data
+- Audit trails for AI-generated code
 
 ---
 
@@ -151,42 +198,46 @@
 
 ---
 
-## Cost Management
+## Cost Model
 
-### Transparent Pricing Model
-- **2-core:** $0.18/hour
-- **4-core:** $0.36/hour  
-- **8-core:** $0.72/hour
-- **16-core:** $1.44/hour
-- **32-core:** $2.88/hour
-- **Storage:** $0.07/GB per month
-- **Note:** GitHub Enterprise Cloud does not include free Codespaces quota
-- **Source:** [GitHub Docs - Codespaces Billing](https://docs.github.com/en/billing/concepts/product-billing/github-codespaces)
-
-### Cost Controls
-- Set spending limits per user/team
-- Automatic stop on idle (configurable)
-- Usage reports and analytics
-- Prebuild optimization
+### Simple, Predictable Pricing
+- **Standard developer**: ~$30-50/month (2-core, 40 hrs/week)
+- **Power developer**: ~$100-150/month (4-core, heavy usage)
+- **Automatic idle shutdown** after 30 minutes saves 70% costs
+- **Monthly caps** prevent budget overruns
 
 ---
 
-## Alternative: Coder (Brief Overview)
+## Platform Options
 
-### When to Consider Coder
-- Self-hosted requirement
-- Air-gapped environments
-- Custom infrastructure needs
-- Multi-cloud deployment
+### Available Solutions
 
-### Trade-offs
-- ❌ Additional infrastructure management
-- ❌ Separate licensing costs
-- ❌ Not integrated with GitHub Enterprise
-- ✅ More customization options
-- ✅ Self-hosted control
+| Platform | Best For | Cost Model | Key Advantage |
+|----------|----------|------------|---------------|
+| **GitHub Codespaces** | Quick start, GitHub users | $0.18/hour | Already included with GitHub |
+| **Gitpod** | Self-hosted but managed | $8/mo + usage | 3-minute AWS setup, zero ops |
+| **DevZero** | Cost optimization | $40/user/month | 90% cost savings with MicroVMs |
+| **Coder** | Full on-premises control | License + infrastructure | Complete data residency |
 
-**Recommendation:** Start with Codespaces (already included), evaluate Coder if specific self-hosted requirements emerge
+### Recommendation: Phased Approach
+1. **Start with Codespaces** - Already included, immediate value
+2. **Evaluate Gitpod** - If need self-hosted without management burden
+3. **Consider DevZero** - If costs become concern at scale
+4. **Deploy Coder** - Only if strict on-premises requirement
+
+---
+
+## Deployment Strategy
+
+### Phased Implementation
+1. **Pilot** (Month 1): 10 developers, non-sensitive projects
+2. **Expand** (Month 2-3): Department-level rollout
+3. **Scale** (Month 4+): Enterprise deployment with governance
+
+### Data Access Solutions
+- **Non-sensitive**: Direct cloud development
+- **Sensitive**: VPN tunnel to on-premises databases
+- **Restricted**: Consider Coder for full on-premises
 
 ---
 
@@ -266,22 +317,6 @@ prebuild:
 
 ---
 
-## Next Steps
-
-### Immediate Actions
-1. **Technical POC** - 2-week trial with pilot team
-2. **Policy Definition** - Establish governance framework
-3. **Template Creation** - Develop standard .devcontainer configs
-4. **Training Plan** - Prepare developer enablement
-
-### Decision Points
-- Pilot team selection
-- Success criteria definition
-- Timeline confirmation
-- Budget allocation
-
----
-
 ## Q&A and Live Demo
 
 ### Demo Highlights
@@ -298,110 +333,6 @@ prebuild:
 
 ---
 
-## Appendix: .devcontainer Best Practices
-
-### Python Development Template
-```json
-{
-  "name": "OPERS Python Secure Dev",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
-  "features": {
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11",
-      "installJupyterlab": true
-    },
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
-  },
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "python.linting.enabled": true,
-        "python.linting.pylintEnabled": true,
-        "python.formatting.provider": "black",
-        "python.testing.pytestEnabled": true
-      },
-      "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.black-formatter",
-        "ms-toolsai.jupyter",
-        "github.copilot"
-      ]
-    }
-  },
-  "remoteUser": "vscode",
-  "postCreateCommand": "pip install --user -r requirements.txt",
-  "mounts": [],
-  "runArgs": ["--cap-drop=ALL", "--security-opt=no-new-privileges"]
-}
-```
-
----
-
-## Appendix: Governance Policy Example
-
-### Organization-Wide Codespaces Policy
-```yaml
-version: 1.0
-organization: OPERS
-policies:
-  machine_types:
-    allowed:
-      - basicLinux32gb
-      - standardLinux32gb
-    blocked:
-      - premiumLinux
-  
-  timeout:
-    idle_minutes: 30
-    max_inactive_days: 7
-  
-  security:
-    require_sso: true
-    allowed_repos:
-      - visibility: private
-      - visibility: internal
-    secrets_management:
-      - use_organization_secrets: true
-      - user_secrets_allowed: false
-  
-  cost_management:
-    monthly_limit_usd: 5000
-    per_user_limit_usd: 500
-    alerts:
-      - threshold: 80
-        notify: it-governance@opers.com
-```
-
----
-
-## Appendix: Migration Checklist
-
-### From Local Development to Codespaces
-
-#### Pre-Migration
-- [ ] Inventory current development tools
-- [ ] Document Python versions and dependencies
-- [ ] Identify custom configurations
-- [ ] Review security requirements
-
-#### Migration Process
-- [ ] Create base .devcontainer templates
-- [ ] Test with pilot users
-- [ ] Document common workflows
-- [ ] Set up organization policies
-
-#### Post-Migration
-- [ ] Monitor usage metrics
-- [ ] Gather developer feedback
-- [ ] Optimize configurations
-- [ ] Calculate ROI
-
----
 
 ## Thank You
 
