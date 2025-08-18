@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codespaces Demo - Development Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Development Dashboard</h1>
+            <p class="subtitle">GitHub Codespaces Governance & Metrics</p>
+            <div class="environment-badge">
+                <span class="badge">GitHub Codespaces Environment</span>
+                <span class="badge success">Compliant</span>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Commits</h3>
+                <p class="stat-value" id="total-commits">-</p>
+                <p class="stat-label">Last 30 days</p>
+            </div>
+            <div class="stat-card">
+                <h3>Active Developers</h3>
+                <p class="stat-value" id="avg-developers">-</p>
+                <p class="stat-label">Daily average</p>
+            </div>
+            <div class="stat-card">
+                <h3>Codespace Hours</h3>
+                <p class="stat-value" id="codespace-hours">-</p>
+                <p class="stat-label">Total usage</p>
+            </div>
+            <div class="stat-card highlight">
+                <h3>Estimated Cost</h3>
+                <p class="stat-value" id="cost-estimate">$-</p>
+                <p class="stat-label">Based on $0.18/hour</p>
+            </div>
+        </section>
+
+        <section class="governance-section">
+            <h2>Governance & Compliance</h2>
+            <div class="governance-grid">
+                <div class="governance-card">
+                    <h3>Policy Configuration</h3>
+                    <ul id="policies-list">
+                        <li>Loading policies...</li>
+                    </ul>
+                </div>
+                <div class="governance-card">
+                    <h3>Compliance Status</h3>
+                    <div id="compliance-status">
+                        <p>Loading compliance data...</p>
+                    </div>
+                </div>
+                <div class="governance-card">
+                    <h3>Cost Controls</h3>
+                    <div id="cost-controls">
+                        <p>Loading cost data...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h2>Demo Features</h2>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>🔒 Security Features</h3>
+                    <ul>
+                        <li>SSO Required: ✓</li>
+                        <li>Encrypted Storage: ✓</li>
+                        <li>Network Restrictions: ✓</li>
+                        <li>Audit Logging: ✓</li>
+                    </ul>
+                </div>
+                <div class="demo-card">
+                    <h3>🛠 Developer Tools</h3>
+                    <ul>
+                        <li>Python 3.11 Environment</li>
+                        <li>Pre-configured VSCode</li>
+                        <li>GitHub Integration</li>
+                        <li>Jupyter Support</li>
+                    </ul>
+                </div>
+                <div class="demo-card">
+                    <h3>📊 Monitoring</h3>
+                    <ul>
+                        <li>Real-time Usage Tracking</li>
+                        <li>Cost Monitoring</li>
+                        <li>Performance Metrics</li>
+                        <li>Compliance Reports</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>GitHub Codespaces Demo | Powered by GitHub Enterprise Cloud</p>
+            <p class="footer-note">This demo showcases governance, security, and standardization capabilities</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

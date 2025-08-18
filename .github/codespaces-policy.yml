@@ -1,0 +1,185 @@
+# GitHub Codespaces Organization Policy Example
+# This file demonstrates governance controls for enterprise organizations
+# Note: This is an example - actual policies are configured in GitHub organization settings
+
+version: 1.0
+organization: enterprise-demo
+
+# Machine type restrictions
+machine_types:
+  allowed:
+    - basicLinux32gb     # 2 cores, 4 GB RAM
+    - standardLinux32gb  # 4 cores, 8 GB RAM
+    - largeLin32gb      # 8 cores, 16 GB RAM
+  blocked:
+    - premiumLinux       # High-cost instances
+    - gpuLinux          # GPU instances (deprecated)
+
+# Idle and retention policies
+timeout:
+  idle_minutes: 30              # Auto-stop after 30 minutes idle
+  max_runtime_minutes: 480      # Maximum 8 hours continuous runtime
+  max_inactive_days: 7          # Delete after 7 days inactive
+
+# Security policies
+security:
+  require_sso: true                     # Enforce SSO authentication
+  require_2fa: true                     # Require two-factor authentication
+  allowed_repos:
+    - visibility: private               # Only private repos
+    - visibility: internal              # Internal repos allowed
+  blocked_repos:
+    - visibility: public                # No public repos
+  ip_allow_list:
+    enabled: true
+    ranges:
+      - "10.0.0.0/8"                   # Corporate network
+      - "192.168.0.0/16"               # VPN range
+
+# Development environment standards
+environment:
+  base_images:
+    - "mcr.microsoft.com/devcontainers/python:3.11"
+    - "mcr.microsoft.com/devcontainers/python:3.10"
+    - "mcr.microsoft.com/devcontainers/javascript-node:18"
+  
+  required_features:
+    - "ghcr.io/devcontainers/features/git:1"
+    - "ghcr.io/devcontainers/features/github-cli:1"
+  
+  blocked_extensions:
+    - "*.unauthorized-extension"
+    - "*.untrusted-publisher"
+  
+  allowed_extensions:
+    - "ms-python.python"
+    - "ms-python.vscode-pylance"
+    - "ms-python.black-formatter"
+    - "ms-toolsai.jupyter"
+    - "github.copilot"
+    - "github.vscode-pull-request-github"
+    - "eamodio.gitlens"
+    - "ms-azuretools.vscode-docker"
+
+# Secret management
+secrets:
+  organization_secrets: allow          # Can use org secrets
+  repository_secrets: allow            # Can use repo secrets
+  user_secrets: block                  # Cannot use personal secrets
+  
+  required_secrets:
+    - name: "API_ENDPOINT"
+      description: "Required API endpoint for all services"
+    - name: "AUTH_TOKEN"
+      description: "Authentication token for services"
+
+# Cost management
+cost_management:
+  monthly_budget_usd: 10000            # Organization monthly budget
+  team_budgets:
+    engineering: 5000
+    data_science: 3000
+    operations: 2000
+  
+  per_user_limit_usd: 500              # Maximum per user per month
+  
+  alerts:
+    - threshold_percent: 50
+      notify: "it-governance@example.com"
+    - threshold_percent: 80
+      notify: "it-governance@example.com,finance@example.com"
+    - threshold_percent: 95
+      action: "block_new_codespaces"
+
+# Prebuild configuration
+prebuilds:
+  enabled: true
+  branches:
+    - main
+    - develop
+    - "feature/*"
+  
+  triggers:
+    - on_push: true
+    - on_pull_request: true
+    - schedule: "0 2 * * *"            # Daily at 2 AM
+  
+  retention_days: 7
+  max_prebuild_minutes: 120            # Maximum prebuild time
+
+# Audit and compliance
+audit:
+  log_retention_days: 90               # Keep audit logs for 90 days
+  export_to_siem: true                 # Export to security information system
+  
+  tracked_events:
+    - codespace_created
+    - codespace_deleted
+    - codespace_exported
+    - secret_accessed
+    - policy_violation
+    - configuration_changed
+  
+  compliance_checks:
+    - check: "no_sensitive_data"
+      frequency: "hourly"
+    - check: "approved_extensions_only"
+      frequency: "on_create"
+    - check: "cost_within_budget"
+      frequency: "daily"
+
+# Monitoring and metrics
+monitoring:
+  metrics_enabled: true
+  export_to: "datadog"                 # Or "prometheus", "azure_monitor", etc.
+  
+  tracked_metrics:
+    - active_codespaces_count
+    - total_compute_hours
+    - storage_usage_gb
+    - cost_per_team
+    - policy_violations_count
+    - average_startup_time
+  
+  dashboards:
+    - name: "Executive Overview"
+      visibility: "organization"
+    - name: "Team Usage"
+      visibility: "team"
+    - name: "Cost Analysis"
+      visibility: "finance"
+
+# Shadow IT prevention
+shadow_it_prevention:
+  block_local_development: false       # Guidance, not enforcement
+  require_codespaces_for:
+    - repositories_with_secrets: true
+    - repositories_with_pii: true
+    - production_code: true
+  
+  detection:
+    - monitor_git_clones: true
+    - alert_on_local_commits: false
+    - track_development_patterns: true
+
+# Notifications
+notifications:
+  channels:
+    email:
+      enabled: true
+      recipients:
+        - "it-governance@example.com"
+    slack:
+      enabled: true
+      webhook: "${SLACK_WEBHOOK_URL}"
+    teams:
+      enabled: true
+      webhook: "${TEAMS_WEBHOOK_URL}"
+  
+  events:
+    - event: "budget_exceeded"
+      channels: ["email", "slack"]
+    - event: "policy_violation"
+      channels: ["email", "teams"]
+    - event: "security_alert"
+      channels: ["email", "slack", "teams"]
