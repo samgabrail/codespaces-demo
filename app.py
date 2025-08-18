@@ -3,7 +3,7 @@ Demo Application - Simple Dashboard
 Demonstrates a typical Python development workflow in GitHub Codespaces
 """
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from datetime import datetime, timedelta
 import random
 import os
@@ -75,12 +75,7 @@ analyzer = DataAnalyzer()
 @app.route('/')
 def index():
     """Main dashboard page"""
-    return {
-        'message': 'Simplified GitHub Codespaces Demo',
-        'environment': os.getenv('ENVIRONMENT', 'development'),
-        'status': 'running',
-        'endpoints': ['/api/stats', '/api/trends', '/api/governance', '/health']
-    }
+    return render_template('index.html')
 
 @app.route('/api/stats')
 def get_stats():
