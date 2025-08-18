@@ -1,12 +1,15 @@
 """
-Demo Application - Data Analysis Dashboard
+Demo Application - Simple Dashboard
 Demonstrates a typical Python development workflow in GitHub Codespaces
 """
 
-from flask import Flask, render_template, jsonify
-import pandas as pd
-import numpy as np
+from flask import Flask, jsonify
 from datetime import datetime, timedelta
+import random
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -18,53 +21,66 @@ class DataAnalyzer:
     
     def generate_sample_data(self):
         """Generate sample development metrics data"""
-        dates = pd.date_range(
-            start=datetime.now() - timedelta(days=30),
-            end=datetime.now(),
-            freq='D'
-        )
+        data = []
+        start_date = datetime.now() - timedelta(days=30)
         
-        data = {
-            'date': dates,
-            'commits': np.random.poisson(5, len(dates)),
-            'pull_requests': np.random.poisson(2, len(dates)),
-            'code_reviews': np.random.poisson(3, len(dates)),
-            'active_developers': np.random.randint(10, 25, len(dates)),
-            'codespace_hours': np.random.uniform(20, 100, len(dates))
-        }
+        for i in range(30):
+            date = start_date + timedelta(days=i)
+            data.append({
+                'date': date.isoformat(),
+                'commits': random.randint(2, 8),
+                'pull_requests': random.randint(0, 4),
+                'code_reviews': random.randint(1, 5),
+                'active_developers': random.randint(10, 25),
+                'codespace_hours': round(random.uniform(20, 100), 2)
+            })
         
-        return pd.DataFrame(data)
+        return data
     
     def get_summary_stats(self):
         """Calculate summary statistics"""
+        total_commits = sum(d['commits'] for d in self.data)
+        total_prs = sum(d['pull_requests'] for d in self.data)
+        total_hours = sum(d['codespace_hours'] for d in self.data)
+        avg_developers = sum(d['active_developers'] for d in self.data) / len(self.data)
+        
         return {
-            'total_commits': int(self.data['commits'].sum()),
-            'avg_daily_commits': round(self.data['commits'].mean(), 2),
-            'total_prs': int(self.data['pull_requests'].sum()),
-            'avg_developers': round(self.data['active_developers'].mean(), 1),
-            'total_codespace_hours': round(self.data['codespace_hours'].sum(), 2),
-            'cost_estimate': round(self.data['codespace_hours'].sum() * 0.18, 2)  # $0.18/hour
+            'total_commits': total_commits,
+            'avg_daily_commits': round(total_commits / len(self.data), 2),
+            'total_prs': total_prs,
+            'avg_developers': round(avg_developers, 1),
+            'total_codespace_hours': round(total_hours, 2),
+            'cost_estimate': round(total_hours * 0.18, 2)  # $0.18/hour
         }
     
     def get_weekly_trends(self):
         """Get weekly aggregated trends"""
-        weekly = self.data.resample('W', on='date').agg({
-            'commits': 'sum',
-            'pull_requests': 'sum',
-            'code_reviews': 'sum',
-            'active_developers': 'mean',
-            'codespace_hours': 'sum'
-        }).round(2)
-        
-        weekly.reset_index(inplace=True)
-        return weekly.to_dict('records')
+        # Simple weekly aggregation
+        weeks = []
+        for i in range(0, len(self.data), 7):
+            week_data = self.data[i:i+7]
+            week = {
+                'week_start': week_data[0]['date'],
+                'commits': sum(d['commits'] for d in week_data),
+                'pull_requests': sum(d['pull_requests'] for d in week_data),
+                'code_reviews': sum(d['code_reviews'] for d in week_data),
+                'active_developers': round(sum(d['active_developers'] for d in week_data) / len(week_data), 1),
+                'codespace_hours': round(sum(d['codespace_hours'] for d in week_data), 2)
+            }
+            weeks.append(week)
+        return weeks
 
 analyzer = DataAnalyzer()
 
 @app.route('/')
 def index():
     """Main dashboard page"""
-    return render_template('index.html')
+    return {
+        'message': 'Simplified GitHub Codespaces Demo',
+        'environment': os.getenv('ENVIRONMENT', 'development'),
+        'status': 'running',
+        'endpoints': ['/api/stats', '/api/trends', '/api/governance', '/health']
+    }
 
 @app.route('/api/stats')
 def get_stats():

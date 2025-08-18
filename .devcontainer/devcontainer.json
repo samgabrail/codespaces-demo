@@ -1,15 +1,9 @@
 {
-  "name": "Python Secure Development Environment",
+  "name": "Python Development Environment",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
   
   "features": {
-    "ghcr.io/devcontainers/features/python:1": {
-      "version": "3.11",
-      "installJupyterlab": true
-    },
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/devcontainers/features/azure-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
 
   "customizations": {
@@ -36,40 +30,20 @@
         "ms-python.vscode-pylance",
         "ms-python.black-formatter",
         "ms-toolsai.jupyter",
-        "ms-toolsai.jupyter-keymap",
-        "ms-toolsai.jupyter-renderers",
-        "github.copilot",
-        "github.vscode-pull-request-github",
-        "eamodio.gitlens",
-        "ms-azuretools.vscode-docker",
-        "redhat.vscode-yaml"
+        "github.copilot"
       ]
     }
   },
 
   "forwardPorts": [8000, 5000, 3000],
   
-  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt && pre-commit install",
+  "postCreateCommand": "pip install --upgrade pip && pip install -r requirements.txt",
   
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
   
   "remoteUser": "vscode",
   
-  "runArgs": [
-    "--cap-drop=ALL",
-    "--security-opt=no-new-privileges"
-  ],
-  
-  "mounts": [],
-  
   "containerEnv": {
-    "ENVIRONMENT": "development",
-    "ORGANIZATION": "DEMO"
-  },
-  
-  "hostRequirements": {
-    "cpus": 2,
-    "memory": "4gb",
-    "storage": "32gb"
+    "ENVIRONMENT": "development"
   }
 }
